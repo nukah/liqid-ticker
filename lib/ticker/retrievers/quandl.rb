@@ -42,7 +42,7 @@ module Ticker
 
         Date.parse(options[:end_date].to_s)
       rescue ArgumentError
-        raise StandardError, 'You should provide end date in correct format(YYYY-MM-DD)'
+        Date.today
       end
 
       def request

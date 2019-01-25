@@ -11,34 +11,38 @@ return print('You have to define ticker!') if ticker.nil?
 
 start = begin
           Date.parse(ARGV[1])&.to_s
-        rescue ArgumentError
+        rescue TypeError
           return print('You have to define correct start date')
         end
 finish  = ARGV[2]
 
-retriever = Ticker::Retrievers::Quandl.new(ticker, start_date: start, end_date: finish)
-analyzer = Ticker::Analyzer.new(retriever)
+begin
+  retriever = Ticker::Retrievers::Quandl.new(ticker, start_date: start, end_date: finish)
+  analyzer = Ticker::Analyzer.new(retriever)
 
-return print("There is no data for this period") if analyzer.empty?
+  return print("There is no data for this period") if analyzer.empty?
 
-print <<~TEXT
+  print <<~TEXT
 
-  Historical:
-  #{analyzer.history.join("\n")}
+    Historical:
+    #{analyzer.history.join("\n")}
 
-  --
+    --
 
-  First 3 drawdowns:
-  #{analyzer.top_drawdowns.map(&:to_drawdown).join("\n")}
+    First 3 drawdowns:
+    #{analyzer.top_drawdowns.map(&:to_drawdown).join("\n")}
 
-  --
+    --
 
-  Highest drawdown:
-  #{analyzer.highest_drawdown.to_drawdown.to_s}
+    Highest drawdown:
+    #{analyzer.highest_drawdown.to_drawdown.to_s}
 
-  --
+    --
 
-  Return:
+    Return:
 
-  #{analyzer.return}
-TEXT
+    #{analyzer.return}
+  TEXT
+rescue StandardError => exc
+  puts "Error: #{exc.message}"
+end
