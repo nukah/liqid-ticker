@@ -1,4 +1,4 @@
-example_id                 | status  | run_time |
--------------------------- | ------- | -------- |
-./spec/ticker_spec.rb[1:1] | unknown |          |
-./spec/ticker_spec.rb[1:2] | unknown |          |
+example_id                 | status | run_time        |
+-------------------------- | ------ | --------------- |
+./spec/ticker_spec.rb[1:1] | passed | 0.0009 seconds  |
+./spec/ticker_spec.rb[1:2] | failed | 0.01793 seconds |
