@@ -2,7 +2,6 @@ require 'faraday'
 require 'faraday_middleware'
 require 'excon'
 require 'date'
-require 'pry'
 
 module Ticker
   module Retrievers
@@ -21,7 +20,7 @@ module Ticker
         raise StandardError, 'API_KEY is not set!' if api_key.nil?
         raise StandardError, 'API returned error' unless request.success?
 
-        return data unless block_given?
+        return enum_for(:stock_data) unless block_given?
 
         data.each { |day| yield(day[0], day[1], day[4]) }
       end
@@ -29,7 +28,7 @@ module Ticker
       private
 
       def data
-        request.body['dataset_data']['data']
+        @data ||= request.body['dataset_data']['data']
       end
 
       def start_date
