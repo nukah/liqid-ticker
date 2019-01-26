@@ -3,7 +3,6 @@
 require 'bundler/setup'
 require 'ticker'
 require 'date'
-require 'pry'
 
 puts("Example: API_KEY=EOcwqjJe ticker AAPL 2018-01-01 2018-05-10")
 ticker = ARGV[0]
